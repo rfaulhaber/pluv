@@ -18,18 +18,8 @@ struct Config {
     longitude: String,
 }
 
-trait ForecastService {
-    fn get_current(&self) -> String;
-}
-
-struct DarkSkyClient {
-    api_key: String,
-}
-
-impl ForecastService for DarkSkyClient {
-    fn get_current(&self) -> String {
-        unimplemented!();
-    }
+enum Client {
+    DarkSkyClient { api_key: String },
 }
 
 fn main() {
@@ -64,8 +54,6 @@ fn main() {
         Ok(result) => result,
         Err(err) => fatalln(format!("something went wrong: {}", err).as_str()),
     };
-
-    println!("config: {:?}", config);
 }
 
 fn fatalln(message: &str) -> ! {
