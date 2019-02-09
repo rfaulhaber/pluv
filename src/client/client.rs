@@ -23,6 +23,14 @@ pub struct Forecast {
     pub current_temp: String,
 }
 
+pub struct Currently {}
+
+pub struct Weekly {}
+
+pub struct Hourly {}
+
+pub struct Daily {}
+
 // TODO implement better display!
 impl std::fmt::Display for Forecast {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
