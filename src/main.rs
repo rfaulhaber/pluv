@@ -11,9 +11,8 @@ use std::path::Path;
 use std::process;
 
 mod client;
-mod darksky;
 
-use client::ForecastService;
+use client::client::{ClientType, Forecast, ForecastClient};
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 struct Config {
@@ -55,6 +54,23 @@ fn main() {
 		Ok(result) => result,
 		Err(err) => fatalln(format!("something went wrong: {}", err).as_str()),
 	};
+
+	let client_type = match config.service.as_str() {
+		"DarkSky" => ClientType::DarkSky {
+			api_key: config.api_key,
+		},
+		_ => panic!("invalid service type"),
+	};
+
+	let mut service = client::client::new_client(client_type);
+
+	println!(
+		"{}",
+		service.get_current_weather(
+			config.latitude.parse().unwrap(),
+			config.longitude.parse().unwrap()
+		)
+	);
 }
 
 // fn get_current_weather(service: ForecastService) -> String {
